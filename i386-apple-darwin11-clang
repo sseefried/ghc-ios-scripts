@@ -2,6 +2,25 @@
 
 TARGET_PLATFORM=`xcrun --show-sdk-path --sdk iphonesimulator`
 TARGET_GCC=`xcrun -f clang`
-TARGET_CFLAGS="-isysroot $TARGET_PLATFORM -arch i386 -mios-simulator-version-min=7.0"
+TARGET_CFLAGS="-isysroot $TARGET_PLATFORM -arch i386 -mios-simulator-version-min=4.3"
 
-exec $TARGET_GCC $TARGET_CFLAGS "$@"
+TARGET_LDFLAGS="-Wl,-syslibroot,$TARGET_PLATFORM"
+
+#
+# Checks whether any of the flags -c, -S or -E are used which mean that no linking
+# is done by clang.
+#
+function no_link() {
+  local RES=0
+  while [ $# -gt 0 ]; do
+    [ "$1" = "-c" -o "$1" = "-S" -o "$1" = "-E" ] && RES=1
+    shift
+  done
+  echo $RES
+}
+
+if [ $(no_link $@) -eq 1 ]; then
+  exec $TARGET_GCC $TARGET_CFLAGS "$@"
+else
+  exec $TARGET_GCC $TARGET_CFLAGS $TARGET_LDFLAGS "$@"
+fi
