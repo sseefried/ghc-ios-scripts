@@ -16,11 +16,10 @@ export PATH=$HOME/Library/Haskell/bin:$PATH
 export PATH=$IOS_I386_BUILD_SYSROOT/bin:$HOME/ghc-ios/ghc-ios-scripts:$PATH
 
 
-export PS1="\[\e[1;35m\]\w\[\e[1;33m\]\[\e[0m\]\[\e[1;35m\]\n[ios-i386]%\[\e[0m\] "
+export PS1="\[\e[1;35m\]\w\n[ios-i386]%\[\e[0m\] "
 
-PLATFORM=`xcrun --show-sdk-platform-path --sdk iphonesimulator`
 export IOS_I386_HOST=i386-apple-darwin11
-export IOS_I386_PLATFORM_SYSROOT=$PLATFORM/Developer/SDKs/iPhoneSimulator.sdk
+export IOS_I386_PLATFORM_SYSROOT=`xcrun --show-sdk-path --sdk iphonesimulator`
 IOS_SIM_FLAG="-mios-simulator-version-min=4.3"
 
 #
