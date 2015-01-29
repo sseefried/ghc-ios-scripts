@@ -1,5 +1,10 @@
 #!/bin/sh
 export COMMON="--builddir=dist/i386"
+if [ "$IOS_I386_BUILD_SYSROOT" = ""  ]; then
+  echo "Environment variable IOS_I386_BUILD_SYSROOT is not set"
+  exit 1
+fi
+
 export COMPILE="--with-ghc=i386-apple-darwin11-ghc
                 --with-ghc-pkg=i386-apple-darwin11-ghc-pkg
                 --with-gcc=i386-apple-darwin11-clang
