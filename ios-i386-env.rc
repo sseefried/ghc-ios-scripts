@@ -11,7 +11,10 @@ export HOME=/Users/sseefried
 export TERM=xterm
 
 export IOS_I386_BUILD_SYSROOT=$HOME/ghc-ios/i386-sysroot
-export PATH=$IOS_I386_BUILD_SYSROOT/bin:$HOME/ghc-ios/ghc-ios-scripts:/bin:/usr/bin:/usr/local/bin
+export PATH=/bin:/usr/bin:/usr/local/bin
+export PATH=$HOME/Library/Haskell/bin:$PATH
+export PATH=$IOS_I386_BUILD_SYSROOT/bin:$HOME/ghc-ios/ghc-ios-scripts:$PATH
+
 
 export PS1="\[\e[1;35m\]\w\[\e[1;33m\]\[\e[0m\]\[\e[1;35m\]\n[ios-i386]%\[\e[0m\] "
 
