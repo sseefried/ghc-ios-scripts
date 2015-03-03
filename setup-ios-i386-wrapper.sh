@@ -16,18 +16,54 @@ if [ "$IOS_I386_BUILD_SYSROOT" = ""  ]; then
 fi
 
 if [ ! -f  Setup ]; then
-  echo Could not find 'Setup'
+  if [ -f Setup.hs -o -f Setup.lhs ]; then
+    ghc --make Setup.?hs
+  fi
+  if [ ! -f  Setup ]; then
+    echo Could not find 'Setup or Setup.(l)hs'
+    exit 1
+  fi
+fi
+
+if [ $# -lt 1 ]; then
+  echo "Usage: $(basename $0) clean|configure|build|install"
   exit 1
 fi
 
-./Setup configure \
-  --ghc \
-  --with-ghc=i386-apple-darwin11-ghc \
-  --with-ghc-pkg=i386-apple-darwin11-ghc-pkg \
-  --with-gcc=i386-apple-darwin11-clang \
-  --with-ld=i386-apple-darwin11-ld \
-  --with-hc-pkg=i386-apple-darwin11-ghc-pkg \
-  --hsc2hs-options=--cross-compile \
-  --prefix=$IOS_I386_BUILD_SYSROOT \
-  --package-db=user \
-  "$@"
+ARG=$1
+shift
+
+ARCH=i386-apple-darwin11
+BUILDDIR=dist/$ARCH
+
+case $ARG in
+  clean)
+    ./Setup clean
+  ;;
+  configure)
+    ./Setup configure  \
+      --ghc \
+      --builddir=$BUILDDIR \
+      --with-compiler=$ARCH-ghc \
+      --with-gcc=$ARCH-clang \
+      --with-ld=$ARCH-ld \
+      --with-ghc-pkg=$ARCH-ghc-pkg \
+      --with-hc-pkg=$ARCH-ghc-pkg \
+      --hsc2hs-options=--cross-compile \
+      --prefix=$IOS_I386_BUILD_SYSROOT \
+      --package-db=user \
+      "$@"
+  ;;
+
+  build)
+    ./Setup build --builddir=$BUILDDIR "$@"
+  ;;
+
+  install)
+    ./Setup install --builddir=$BUILDDIR "$@"
+  ;;
+  *)
+    echo "Unknown command. Use configure|build|install"
+  ;;
+esac
+
