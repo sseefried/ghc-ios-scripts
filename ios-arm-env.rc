@@ -1,0 +1,53 @@
+#
+# Exported variables
+# ------------------
+#
+# IOS_ARM_BUILD_SYSROOT
+# IOS_ARM_PLATFORM_SYSROOT
+# IOS_ARM_CONFIGURE_CMD
+#
+
+# FIXME: Hard coded
+export HOME=/Users/sseefried
+export TERM=xterm
+
+# FIXME: Hard coded
+export IOS_ARM_BUILD_SYSROOT=$HOME/ghc-ios/arm-sysroot
+
+#FIXME: Hard coded
+LLVM_PATH=/usr/local/clang+llvm-3.0-x86_64-apple-darwin11
+
+export PATH=/bin:/usr/bin:/usr/local/bin
+export PATH=$HOME/Library/Haskell/bin:$LLVM_PATH/bin:$PATH
+# FIXME: Hard coded
+export PATH=$IOS_ARM_BUILD_SYSROOT/bin:$HOME/ghc-ios/ghc-ios-scripts:$PATH
+
+export PS1="\[\e[1;31m\]\w\n[ios-arm]%\[\e[0m\] "
+
+export IOS_ARM_HOST=arm-apple-darwin10
+export IOS_ARM_PLATFORM_SYSROOT=`xcrun --show-sdk-path --sdk iphoneos`
+IOS_FLAG="-miphoneos-version-min=4.3"
+
+#
+# Must reset PKG_CONFIG_PATH for cross-compiler environment
+#
+export PKG_CONFIG_PATH=
+export PKG_CONFIG_LIBDIR=$IOS_ARM_BUILD_SYSROOT/lib/pkgconfig
+
+#
+# In a cross compiling environment 'isysroot' (for CFLAGS) and syslibroot (for LDFLAGS) are
+# vital.
+#
+
+export CPP="xcrun --sdk iphoneos --run gcc -E $IOS_FLAG"
+export CC="xcrun --sdk iphoneos --run gcc $IOS_FLAG"
+export CXX="xcrun --sdk iphoneos --run g++ $IOS_FLAG"
+
+export LDFLAGS="-arch armv7 -Wl,-syslibroot,$IOS_ARM_PLATFORM_SYSROOT $IOS_FLAG"
+export CFLAGS="-arch armv7 -I$IOS_ARM_BUILD_SYSROOT/include -L$IOS_ARM_BUILD_SYSROOT/lib -isysroot $IOS_ARM_PLATFORM_SYSROOT -Wl,-syslibroot,$IOS_ARM_PLATFORM_SYSROOT $IOS_FLAG"
+export CPPFLAGS=$CFLAGS
+export CXXFLAGS=$CFLAGS
+
+export IOS_ARM_CONFIGURE_CMD="./configure --prefix=$IOS_ARM_BUILD_SYSROOT --host=$IOS_ARM_HOST"
+
+export EPIDEMIC_IOS_BUILD_DIR=/Users/sseefried/code/games/Epidemic\ iOS

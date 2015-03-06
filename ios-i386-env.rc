@@ -10,9 +10,12 @@
 export HOME=/Users/sseefried
 export TERM=xterm
 
+#FIXME: Hard coded
+LLVM_PATH=/usr/local/clang+llvm-3.0-x86_64-apple-darwin11
+
 export IOS_I386_BUILD_SYSROOT=$HOME/ghc-ios/i386-sysroot
 export PATH=/bin:/usr/bin:/usr/local/bin
-export PATH=$HOME/Library/Haskell/bin:$PATH
+export PATH=$HOME/Library/Haskell/bin:$LLVM_PATH/bin:$PATH
 export PATH=$IOS_I386_BUILD_SYSROOT/bin:$HOME/ghc-ios/ghc-ios-scripts:$PATH
 
 
@@ -33,12 +36,15 @@ export PKG_CONFIG_LIBDIR=$IOS_I386_BUILD_SYSROOT/lib/pkgconfig
 # vital.
 #
 
-
+export CPP="xcrun --sdk iphonesimulator --run gcc -E $IOS_SIM_FLAG"
 export CC="xcrun --sdk iphonesimulator --run gcc $IOS_SIM_FLAG"
 export CXX="xcrun --sdk iphonesimulator --run g++ $IOS_SIM_FLAG"
 
 export LDFLAGS="-arch i386 -Wl,-syslibroot,$IOS_I386_PLATFORM_SYSROOT $IOS_SIM_FLAG"
 export CFLAGS="-arch i386 -I$IOS_I386_BUILD_SYSROOT/include -L$IOS_I386_BUILD_SYSROOT/lib -isysroot $IOS_I386_PLATFORM_SYSROOT -Wl,-syslibroot,$IOS_I386_PLATFORM_SYSROOT $IOS_SIM_FLAG"
+export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CFLAGS
 
 export IOS_I386_CONFIGURE_CMD="./configure --prefix=$IOS_I386_BUILD_SYSROOT --host=$IOS_I386_HOST"
+
+export EPIDEMIC_IOS_BUILD_DIR=/Users/sseefried/code/games/Epidemic\ iOS
