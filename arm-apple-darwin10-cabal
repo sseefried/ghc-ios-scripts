@@ -1,9 +1,20 @@
 #!/bin/sh
-export COMMON=--builddir=dist/arm
+if [ "$IOS_ARM_BUILD_SYSROOT" = ""  ]; then
+  echo "Environment variable IOS_ARM_BUILD_SYSROOT is not set"
+  exit 1
+fi
+
+export COMMON="--builddir=dist/arm-apple-darwin10"
 export COMPILE="--with-ghc=arm-apple-darwin10-ghc
                 --with-ghc-pkg=arm-apple-darwin10-ghc-pkg
                 --with-gcc=arm-apple-darwin10-clang
                 --with-ld=arm-apple-darwin10-ld
                 --hsc2hs-options=--cross-compile"
-export CONFIG="--configure-option=--host=arm-apple-darwin10 --disable-shared"
+export CONFIG="--configure-option=--host=arm-apple-darwin10
+               --prefix=$IOS_ARM_BUILD_SYSROOT
+               --disable-shared
+               --extra-include-dirs=$IOS_ARM_BUILD_SYSROOT/include
+               --extra-lib-dirs=$IOS_ARM_BUILD_SYSROOT/lib
+               --disable-library-profiling"
+
 exec "`dirname $0`/common-cross-cabal" "$@"

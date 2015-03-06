@@ -4,15 +4,20 @@ TARGET_PLATFORM=`xcrun --show-sdk-platform-path --sdk iphoneos`
 TARGET_BIN=`xcrun --show-sdk-platform-path --sdk iphoneos`/Developer/usr/bin
 
 TARGET_LD=$TARGET_BIN/ld
-TARGET_LDFLAGS="-L$TARGET_PLATFORM/usr/lib/ -ios_version_min 7.0"
+TARGET_LDFLAGS="-L$TARGET_PLATFORM/usr/lib/ -ios_version_min 4.3"
 
 # echo "LINKING WITH: $@"
 
 args=$@
 
+# args=""
+# for i in $@; do
+#   args="$args $(echo $i | sed 's/-Wl,-no_compact_unwind//' | sed 's/-Wl,-no_pie//')"
+# done
+
 # Check if we're building an object file by looking for "-o file.o", and find its filename
 # sed's -E allows extended regexes (cleaner syntax), -n suppresses non-matching input, the |p flag prints matches.
-outFileName=$(echo "$args" | sed -En 's|.*-o ([^.]*)\.o.*|\1|p')
+outFileName=$(echo "$args" | sed -En 's|.*-o ([^ .]*)\.o.*|\1|p')
 
 # Only need lipo when we're building object files
 if [ -n "$outFileName" ]

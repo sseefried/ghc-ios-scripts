@@ -6,4 +6,18 @@ export COMPILE="--with-ghc=aarch64-apple-darwin14-ghc
                 --with-ld=aarch64-apple-darwin14-ld
                 --hsc2hs-options=--cross-compile"
 export CONFIG="--configure-option=--host=aarch64-apple-darwin14 --disable-shared"
-exec "`dirname $0`/common-cross-cabal" "$@"
+
+# Some extra options, depending on what command was invoked.
+case $1 in
+    configure|install) OPTIONS="$COMMON $COMPILE $CONFIG" ;;
+    build)             OPTIONS="$COMMON $COMPILE" ;;
+    list|info|update)  OPTIONS="" ;;
+    "")                OPTIONS="" ;;
+    *)                 OPTIONS="$COMMON" ;;
+esac
+
+# FIXME: Hard coded
+exec $HOME/ghc-ios/host-sysroot/bin/cabal \
+  --config-file=$HOME/ghc-ios/host-sysroot/.cabal/config \
+  $OPTIONS "$@"
+
