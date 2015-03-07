@@ -1,5 +1,5 @@
 #!/bin/sh
-export COMMON=--builddir=dist/aarch64
+export COMMON=--builddir=dist/aarch64-apple-darwin14
 export COMPILE="--with-ghc=aarch64-apple-darwin14-ghc
                 --with-ghc-pkg=aarch64-apple-darwin14-ghc-pkg
                 --with-gcc=aarch64-apple-darwin14-clang
