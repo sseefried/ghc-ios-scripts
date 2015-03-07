@@ -7,7 +7,6 @@
 # IOS_ARM_CONFIGURE_CMD
 #
 
-# FIXME: Hard coded
 export HOME=/Users/sseefried
 export TERM=xterm
 
@@ -49,5 +48,3 @@ export CPPFLAGS=$CFLAGS
 export CXXFLAGS=$CFLAGS
 
 export IOS_ARM_CONFIGURE_CMD="./configure --prefix=$IOS_ARM_BUILD_SYSROOT --host=$IOS_ARM_HOST"
-
-export EPIDEMIC_IOS_BUILD_DIR=/Users/sseefried/code/games/Epidemic\ iOS

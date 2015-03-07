@@ -4,4 +4,9 @@ if [ "$IOS_SCRIPTS" = "" ]; then
   exit 1
 fi
 
-env -i bash --rcfile "$IOS_SCRIPTS/ios-aarch64-env.rc"
+if [ "$EPIDEMIC_IOS_BUILD_DIR" = "" ]; then
+  echo "EPIDEMIC_IOS_BUILD_DIR environment variable is not set"
+  exit 1
+fi
+
+env -i bash EPIDEMIC_IOS_BUILD_DIR=$EPIDEMIC_IOS_BUILD_DIR --rcfile "$IOS_SCRIPTS/ios-aarch64-env.rc"
