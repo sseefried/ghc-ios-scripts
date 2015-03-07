@@ -15,15 +15,15 @@ if [ "$IOS_AARCH64_BUILD_SYSROOT" = ""  ]; then
   exit 1
 fi
 
-if [ ! -f  Setup ]; then
-  if [ -f Setup.hs -o -f Setup.lhs ]; then
-    ghc --make Setup.?hs
-  fi
-  if [ ! -f  Setup ]; then
-    echo Could not find 'Setup or Setup.(l)hs'
-    exit 1
-  fi
+rm -f Setup
+if [ -f Setup.hs -o -f Setup.lhs ]; then
+  ghc --make Setup.?hs
 fi
+if [ ! -f  Setup ]; then
+  echo Could not generate 'Setup or Setup.(l)hs'
+  exit 1
+fi
+
 
 if [ $# -lt 1 ]; then
   echo "Usage: $(basename $0) clean|configure|build|install"
