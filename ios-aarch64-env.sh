@@ -9,4 +9,4 @@ if [ "$EPIDEMIC_IOS_BUILD_DIR" = "" ]; then
   exit 1
 fi
 
-env -i bash EPIDEMIC_IOS_BUILD_DIR=$EPIDEMIC_IOS_BUILD_DIR --rcfile "$IOS_SCRIPTS/ios-aarch64-env.rc"
+env -i EPIDEMIC_IOS_BUILD_DIR=$EPIDEMIC_IOS_BUILD_DIR bash --rcfile "$IOS_SCRIPTS/ios-aarch64-env.rc"
